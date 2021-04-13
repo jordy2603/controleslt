@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="controleModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="bien">
+          <Key>
+            <PropertyRef Name="nom_bien" />
+          </Key>
+          <Property Name="id_bien" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="date_creation_bien" Type="date" Nullable="false" />
+          <Property Name="nom_bien" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="proprietaire">
+          <Key>
+            <PropertyRef Name="nom_proprio" />
+          </Key>
+          <Property Name="id_proprio" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="date_creation_proprio" Type="date" Nullable="false" />
+          <Property Name="nom_proprio" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="nom_bien" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="nbr_bien" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="proprietaire_c">
+          <Key>
+            <PropertyRef Name="nom_proprio" />
+          </Key>
+          <Property Name="id_proprio" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nom_proprio" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="nbr_bien" Type="int" Nullable="false" />
+          <Property Name="date_creation_proprio" Type="date" Nullable="false" />
+          <Property Name="nom_bien" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_proprietaire_bien">
+          <End Role="bien" Type="Self.bien" Multiplicity="1" />
+          <End Role="proprietaire" Type="Self.proprietaire" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="bien">
+              <PropertyRef Name="nom_bien" />
+            </Principal>
+            <Dependent Role="proprietaire">
+              <PropertyRef Name="nom_proprio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_proprietaire_c_bien">
+          <End Role="bien" Type="Self.bien" Multiplicity="1" />
+          <End Role="proprietaire_c" Type="Self.proprietaire_c" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="bien">
+              <PropertyRef Name="nom_bien" />
+            </Principal>
+            <Dependent Role="proprietaire_c">
+              <PropertyRef Name="nom_proprio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="controleModelStoreContainer">
+          <EntitySet Name="bien" EntityType="Self.bien" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="proprietaire" EntityType="Self.proprietaire" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="proprietaire_c" EntityType="Self.proprietaire_c" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_proprietaire_bien" Association="Self.FK_proprietaire_bien">
+            <End Role="bien" EntitySet="bien" />
+            <End Role="proprietaire" EntitySet="proprietaire" />
+          </AssociationSet>
+          <AssociationSet Name="FK_proprietaire_c_bien" Association="Self.FK_proprietaire_c_bien">
+            <End Role="bien" EntitySet="bien" />
+            <End Role="proprietaire_c" EntitySet="proprietaire_c" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="controleModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="bien">
+          <Key>
+            <PropertyRef Name="nom_bien" />
+          </Key>
+          <Property Name="id_bien" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="date_creation_bien" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="nom_bien" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="proprietaire" Relationship="Self.FK_proprietaire_bien" FromRole="bien" ToRole="proprietaire" />
+          <NavigationProperty Name="proprietaire_c" Relationship="Self.FK_proprietaire_c_bien" FromRole="bien" ToRole="proprietaire_c" />
+        </EntityType>
+        <EntityType Name="proprietaire">
+          <Key>
+            <PropertyRef Name="nom_proprio" />
+          </Key>
+          <Property Name="id_proprio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="date_creation_proprio" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="nom_proprio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="nom_bien" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="nbr_bien" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="bien" Relationship="Self.FK_proprietaire_bien" FromRole="proprietaire" ToRole="bien" />
+        </EntityType>
+        <EntityType Name="proprietaire_c">
+          <Key>
+            <PropertyRef Name="nom_proprio" />
+          </Key>
+          <Property Name="id_proprio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nom_proprio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="nbr_bien" Type="Int32" Nullable="false" />
+          <Property Name="date_creation_proprio" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="nom_bien" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="bien" Relationship="Self.FK_proprietaire_c_bien" FromRole="proprietaire_c" ToRole="bien" />
+        </EntityType>
+        <Association Name="FK_proprietaire_bien">
+          <End Role="bien" Type="Self.bien" Multiplicity="1" />
+          <End Role="proprietaire" Type="Self.proprietaire" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="bien">
+              <PropertyRef Name="nom_bien" />
+            </Principal>
+            <Dependent Role="proprietaire">
+              <PropertyRef Name="nom_proprio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_proprietaire_c_bien">
+          <End Role="bien" Type="Self.bien" Multiplicity="1" />
+          <End Role="proprietaire_c" Type="Self.proprietaire_c" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="bien">
+              <PropertyRef Name="nom_bien" />
+            </Principal>
+            <Dependent Role="proprietaire_c">
+              <PropertyRef Name="nom_proprio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="controleEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="bien" EntityType="Self.bien" />
+          <EntitySet Name="proprietaire" EntityType="Self.proprietaire" />
+          <EntitySet Name="proprietaire_c" EntityType="Self.proprietaire_c" />
+          <AssociationSet Name="FK_proprietaire_bien" Association="Self.FK_proprietaire_bien">
+            <End Role="bien" EntitySet="bien" />
+            <End Role="proprietaire" EntitySet="proprietaire" />
+          </AssociationSet>
+          <AssociationSet Name="FK_proprietaire_c_bien" Association="Self.FK_proprietaire_c_bien">
+            <End Role="bien" EntitySet="bien" />
+            <End Role="proprietaire_c" EntitySet="proprietaire_c" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="controleModelStoreContainer" CdmEntityContainer="controleEntities">
+          <EntitySetMapping Name="bien">
+            <EntityTypeMapping TypeName="controleModel.bien">
+              <MappingFragment StoreEntitySet="bien">
+                <ScalarProperty Name="id_bien" ColumnName="id_bien" />
+                <ScalarProperty Name="date_creation_bien" ColumnName="date_creation_bien" />
+                <ScalarProperty Name="nom_bien" ColumnName="nom_bien" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="proprietaire">
+            <EntityTypeMapping TypeName="controleModel.proprietaire">
+              <MappingFragment StoreEntitySet="proprietaire">
+                <ScalarProperty Name="id_proprio" ColumnName="id_proprio" />
+                <ScalarProperty Name="date_creation_proprio" ColumnName="date_creation_proprio" />
+                <ScalarProperty Name="nom_proprio" ColumnName="nom_proprio" />
+                <ScalarProperty Name="nom_bien" ColumnName="nom_bien" />
+                <ScalarProperty Name="nbr_bien" ColumnName="nbr_bien" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="proprietaire_c">
+            <EntityTypeMapping TypeName="controleModel.proprietaire_c">
+              <MappingFragment StoreEntitySet="proprietaire_c">
+                <ScalarProperty Name="id_proprio" ColumnName="id_proprio" />
+                <ScalarProperty Name="nom_proprio" ColumnName="nom_proprio" />
+                <ScalarProperty Name="nbr_bien" ColumnName="nbr_bien" />
+                <ScalarProperty Name="date_creation_proprio" ColumnName="date_creation_proprio" />
+                <ScalarProperty Name="nom_bien" ColumnName="nom_bien" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
